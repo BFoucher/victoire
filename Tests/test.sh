@@ -12,7 +12,9 @@ php Tests/Functionnal/bin/console --env=test assetic:dump
 nohup php Tests/Functionnal/bin/console --env=test server:run -r vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/config/router_prod.php &
 sleep 5
 curl http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar > selenium-server-standalone-2.53.0.jar
-nohup java -jar selenium-server-standalone-2.53.0.jar > /dev/null &
+curl http://chromedriver.storage.googleapis.com/2.23/chromedriver_linux64.zip | gzip -dc > chromedriver
+chmod +x chromedriver
+nohup java -jar selenium-server-standalone-2.53.0.jar -trustAllSSLCertificates -Dwebdriver.chrome.driver=chromedriver > /dev/null &
 php Tests/Functionnal/bin/console fos:js-routing:dump --env=test --target="Tests/Functionnal/web/js/fos_js_routes_test.js"
 php Tests/Functionnal/bin/console fos:js-routing:dump --env=domain --target="Tests/Functionnal/web/js/fos_js_routes_domain.js"
 phpunit --coverage-text
